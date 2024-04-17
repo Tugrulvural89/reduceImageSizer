@@ -1,0 +1,284 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+
+{% block title %}  <title>Reduce and scale PNG, JPEG images free</title> {% endblock title %}
+ {% block meta_description %}  <meta name="description" content="Use this online
+  service to reduce the size of your JPG, PNG, and JPEG images. Compress your
+   photos for seamless sharing or uploading to social media and websites."> {% endblock meta_description %}
+
+
+
+{% block content %}
+<div class="container">
+     <div class="my-5">
+        <h1 class="text-center mb-5">Resize an Image</h1>
+        <form method="post" enctype="multipart/form-data" class="text-center">
+            {% csrf_token %}
+            <div class="drop-area m-5" id="drop-area">
+              <p>Drop your image here or click to browse.</p>
+              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="darkblue" class="bi bi-upload mb-5 mt-5" viewBox="0 0 16 16">
+  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+  <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
+</svg>
+              <input type="file" id="id_image" class="file-input m-5" name="image" required>
+              {% bootstrap_field form.image show_label=False %}
+              <label for="id_image" class="btn btn-primary mt-2 px-4 py-3">Select Image</label>
+            </div>
+
+            <div id="image-preview-container" class="text-center">
+              <button type="button" class="close-btn" onclick="clearPreview()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+              <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+            </svg></button>
+              <img id="image-preview" src="" alt="Image preview" />
+              <div class="image-info" id="image-info"></div>
+            </div>
+            <div class="d-flex justify-content-center align-items-center text-center m-5">
+                {% bootstrap_field form.quality  size='sm' wrapper_class="form-group mx-sm-3 col-md-2" %}
+                {% bootstrap_field form.output_format   wrapper_class="form-group mx-sm-3 col-md-2" size='sm' %}
+            </div>
+
+            <div>
+
+                   <!-- form alanınız -->
+                    <div class="toggle-icon">
+                        <input type="checkbox" id="manual-resize-toggle" class="manual-resize-toggle" name="is_manual_resize" />
+                        <label for="manual-resize-toggle" class="manual-resize-label">
+                            <i class="fas fa-lock-open" style="color: green"></i>  <!-- Açık kilit ikonu -->
+                            <i class="fas fa-lock" style="color: darkred"></i>       <!-- Kapalı kilit ikonu -->
+                        </label>
+                    </div>
+                  <!-- Genişlik ve Yükseklik Input Alanları -->
+                  <div id="manualResizeInputs" style="display: none;">
+                            <div class="d-flex justify-content-center align-items-center text-center">
+                                {%  bootstrap_field form.width wrapper_class='m-2' %}
+                                {%  bootstrap_field form.height wrapper_class='m-2' %}
+                            </div>
+                  </div>
+
+                      <!-- Yüzde Olarak Küçültme Alanı -->
+                      <div id="percentageResizeInput">
+                          <div class="d-flex justify-content-center align-items-center text-center">
+                                <div class="col-md-2">
+                                    <label class="form-label" for="id_resize_percentage">Resize Percentage:</label>
+                                    <div class="input-group input-group-sm mb-3">
+                                        <input type="number" name="resize_percentage" value="75" min="1" max="100"
+                                               class="form-control percentage-addon" placeholder="Resize Percentage"
+                                               id="id_resize_percentage" aria-label="Resize percentage" aria-describedby="percentage-addon">
+                                        <span class="input-group-text" id="percentage-addon">%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                      </div>
+
+                      <!-- Stretch, Crop, Fit Seçenekleri -->
+
+
+
+
+                <div id="resizeOptions" class="resize-options" style="display: none;">
+                <div class="d-flex m-5" style="justify-content: center;">
+                     {% for mode, name in form.resize_mode.field.choices %}
+                    <div class="resize-option m-3">
+                      <input type="radio" id="resize_mode_{{ mode }}" name="{{ form.resize_mode.html_name }}" value="{{ mode }}" {% if form.resize_mode.value == mode %}checked{% endif %} hidden />
+                      <label for="resize_mode_{{ mode }}">
+                        <img src="{% static 'demo_image_for_'|add:mode|add:'.png' %}" alt="{{ name }}" />
+                        <div>{{ name }}</div>
+                      </label>
+                    </div>
+                  {% endfor %}
+                </div>
+                </div>
+
+
+
+<script>
+  // Add event listeners to update the hidden radio buttons when an image is clicked
+  document.querySelectorAll('.resize-option label').forEach(function(label) {
+    label.addEventListener('click', function() {
+      let radio = document.querySelector('#' + this.getAttribute('for'));
+      radio.checked = true;
+    });
+  });
+</script>
+
+
+
+            </div>
+            <button type="submit" class="btn btn-primary px-4 py-3 m-5">Reduce Image Size</button>
+        </form>
+    </div>
+</div>
+
+        <div class="container">
+    <div class="row mb-4 mt-4">
+        <div class="col text-center">
+            <h1 class="h2">The Importance of Reducing Image File Size for Efficient Digital Management and SEO</h1>
+        </div>
+    </div>
+    <!-- Metin ve Görsel İçeren Flex Container -->
+    <div class="row mb-4 mt-4">
+        <div class="col-md-6  align-items-center">
+            <p>
+    <strong>Image file size</strong> refers to the amount of digital space required to store an image on an electronic device, be it a computer, phone, or digital camera. Every image is comprised of tiny units called <strong>pixels</strong>, each pixel encapsulates a specific hue created through the blend of three primary colors: red, green, and blue. Typically, each pixel is represented by 3 bytes (24 bits), accounting for the vast array of colors in a single photo.
+</p>
+
+<p>
+    High-resolution images are packed with millions of these colorful pixels. For instance, a device that boasts a 12-megapixel camera captures images with 12 million individual pixels. To store a single image from a camera like this, one would need approximately 36 million bytes, or 36 megabytes, of storage space. That's a significant chunk of data, especially when managing storage or transferring files.
+</p>
+
+<p>
+    With today's technology, capturing high-resolution images has become routine, but the resulting large file sizes can be cumbersome. They eat up storage space rapidly and can be slow to share over the internet due to their hefty size. When we talk about <strong>reducing image size</strong>, we refer to the process of compressing an image so that it occupies less space. The act of image reduction is beneficial because it helps conserve storage and speeds up file transmission. If you're emailing a batch of photos or uploading them to a website, shrinking the image file size can significantly cut down on upload and download times.
+</p>
+
+<p>
+    Reducing an image's file size doesn't necessarily mean sacrificing quality. Advanced compression algorithms can minimize the size of an image, making it more manageable for online use, without a noticeable loss in image clarity. This is especially important for website optimization, where images need to be large enough to be clear and detailed but small enough to ensure quick page load times, enhancing the overall user experience.
+</p>
+
+<p>
+    In digital photography and online sharing, the concept of <strong>reducing image size</strong> plays a crucial role. As web pages and digital platforms aim for efficiency and speed, optimized images with reduced file sizes become essential. This aids in faster page loading, saving bandwidth, and providing a swift browsing experience, which are all key factors in search engine optimization (SEO) and improving a website’s ranking.
+</p>
+
+<p>
+    In essence, mindful image size reduction can significantly enhance the digital handling of images, making it a staple practice in the realm of digital imagery and online content management.
+</p>
+
+        </div>
+        <div class="col-md-6 d-flex justify-content-center">
+            <img src="{% static '1.png' %}" alt="image reducer free online" class="img-fluid">
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col text-center">
+            <h1 class="h2">How can I reduce my image's file size?</h1>
+        </div>
+    </div>
+    <!-- Metin ve Görsel İçeren Flex Container -->
+    <div class="row">
+        <div class="col-md-6 d-flex justify-content-center">
+            <img src="{% static '2.png' %}" alt="how can i reduce image size" class="img-fluid" style="max-width: 50%">
+        </div>
+        <div class="col-md-6  align-items-center">
+                      <p class="mb-2">Minimizing the digital size of your visuals is paramount for enhancing storage efficiency and expediting the exchange of images. Employing <strong>image compression</strong> stands out as a practical method to reduce image size without altering the visual's proportions. It's important to note, however, that aggressive compression can degrade the image quality due to the loss of substantial data.</p>
+
+<p class="mb-2">Alternatively, you can <strong>reduce image size</strong> by adjusting the scale of the image, which cuts down on the number of pixels it contains. This method of reducing image size can safeguard the core quality, although it may compromise some intricate details. Considering the multi-megapixel images captured by today's devices, contrast that with the relatively modest pixel count on typical display screens, and it's clear that these devices only showcase a scaled-down version of the original image.</p>
+
+<p class="mb-2">Cutting your image's dimensions in half customarily matches the display resolutions of most gadgets, thereby preserving the integrity and discernible details of your pictures—even in fullscreen mode. For images of considerable magnitude, it's advisable to <strong>reduce image size</strong> to an approximate dimension of 1900x1100 pixels. Converting them to JPEG format at a 90% quality setting will yield a high-quality and adaptable image that remains easy to share, circumventing protracted upload or download durations.</p>
+
+           </div>
+
+    </div>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.querySelector('input[type="file"]');
+        const previewContainer = document.getElementById('image-preview-container');
+        const previewImage = document.getElementById('image-preview');
+        const imageInfo = document.getElementById('image-info');
+        const closeBtn = document.querySelector('.close-btn');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => dropArea.classList.add('hover'), false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => dropArea.classList.remove('hover'), false);
+        });
+
+        dropArea.addEventListener('drop', handleDrop, false);
+        closeBtn.addEventListener('click', clearPreview, false);
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+
+            fileInput.files = files;
+            handleFiles(files);
+        }
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(fileInput.files);
+        });
+
+        function handleFiles(files) {
+                if (files.length) {
+                    const file = files[0];
+                    previewImage.src = URL.createObjectURL(file);
+                    previewImage.onload = () => { // Bu kısım önemli, görüntü yüklenene kadar bekler
+                        URL.revokeObjectURL(previewImage.src); // Kullanılmayan object URL'yi temizler
+                        const size = (file.size / 1024).toFixed(2); // Dosya boyutunu KB cinsinden yuvarlayıp hesaplar
+                        const dimensions = `${previewImage.naturalWidth} x ${previewImage.naturalHeight}`; // Doğal ölçüleri alır
+                        imageInfo.textContent = `${file.name} - ${dimensions} - ${size} KB`; // Bilgiyi metin olarak ekler
+                        previewContainer.style.display = 'block'; // Önizleme konteynerini gösterir
+                    };
+                }
+            }
+
+            function clearPreview() {
+                // Önizleme temizleme işlevi
+                fileInput.value = ''; // Form inputunu temizler
+                previewContainer.style.display = 'none'; // Önizleme konteynerini gizler
+                previewImage.src = ''; // Önizleme görselinin kaynağını temizler
+                imageInfo.textContent = ''; // Görsel bilgisini temizler
+                previewContainer.classList.remove('has-image'); // Kapatma butonunu gizlemek için sınıfı kaldırır
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                // Kapatma butonuna event listener ekler
+                const closeBtn = document.querySelector('.close-btn');
+                closeBtn.addEventListener('click', clearPreview);
+            });
+    </script>
+
+<script>
+  // Anahtar İkonu Toggle Fonksiyonu
+  function toggleManualResize() {
+    var isManual = document.querySelector('.manual-resize-toggle').checked;
+    document.getElementById('manualResizeInputs').style.display = isManual ? 'block' : 'none';
+    document.getElementById('resizeOptions').style.display = isManual ? 'block' : 'none';
+    document.getElementById('percentageResizeInput').style.display = isManual ? 'none' : 'block';
+  }
+
+  // Event Listener Ekleme
+  document.querySelector('.manual-resize-toggle').addEventListener('change', toggleManualResize);
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var manualResizeToggle = document.getElementById('manual-resize-toggle');
+    var manualResizeLabel = document.querySelector('.manual-resize-label');
+
+    function updateIcons() {
+        if (manualResizeToggle.checked) {
+            manualResizeLabel.classList.add('unlocked');
+            manualResizeLabel.classList.remove('locked');
+        } else {
+            manualResizeLabel.classList.remove('unlocked');
+            manualResizeLabel.classList.add('locked');
+        }
+    }
+
+    // Başlangıç durumu için ikonları güncelle
+    updateIcons();
+
+    // Toggle durumu değiştiğinde ikonları güncelle
+    manualResizeToggle.addEventListener('change', updateIcons);
+});
+</script>
+
+{% endblock javascript %}

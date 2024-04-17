@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+
+ {% block title %}<title>Reduce Image Sizer Contact Page</title> {% endblock title %}
+   {% block meta_description %}  <meta name="description" content="Use our Online Image Resizer to compress and
+    resize your images with ease.
+     Perfect for optimizing web images for speed and performance. Contact Us.We are here to help!"> {% endblock meta_description %}
+
+
+
+{% block content %}
+
+    <div class="contact-header p-5 text-center items-center mb-5" style="background-image: url('{% static "contactbg.png" %}');background-size: cover;background-position: center;background-repeat: no-repeat;">
+<div class="container">
+
+           <div style="height: 100px;"></div>
+
+
+
+
+            <!-- templates/contact.html -->
+        <p class="col col-12 col-md-6 fs-4 text-capitalize text-muted text-start">
+        We are here to help!
+
+        </p>
+    <p class="col col-12 col-md-6 fs-4 text-capitalize text-muted text-start">
+        Please let us know if you have any questions or suggestions and we will get back to you.
+
+        </p>
+
+
+    </div>
+</div>
+<div class="container">
+<form method="post" action="">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type='submit' content='Send' size='lg' %}
+</form>
+
+</div>
+
+<div class="container">
+    <div class="row mb-4 mt-4">
+        <div class="col text-center">
+            <h1 class="h2">The Importance of Reducing Image File Size for Efficient Digital Management and SEO</h1>
+        </div>
+    </div>
+    <!-- Metin ve Görsel İçeren Flex Container -->
+    <div class="row mb-4 mt-4">
+        <div class="col-md-6  align-items-center">
+            <p>
+    <strong>Image file size</strong> refers to the amount of digital space required to store an image on an electronic device, be it a computer, phone, or digital camera. Every image is comprised of tiny units called <strong>pixels</strong>, each pixel encapsulates a specific hue created through the blend of three primary colors: red, green, and blue. Typically, each pixel is represented by 3 bytes (24 bits), accounting for the vast array of colors in a single photo.
+</p>
+
+<p>
+    High-resolution images are packed with millions of these colorful pixels. For instance, a device that boasts a 12-megapixel camera captures images with 12 million individual pixels. To store a single image from a camera like this, one would need approximately 36 million bytes, or 36 megabytes, of storage space. That's a significant chunk of data, especially when managing storage or transferring files.
+</p>
+
+<p>
+    With today's technology, capturing high-resolution images has become routine, but the resulting large file sizes can be cumbersome. They eat up storage space rapidly and can be slow to share over the internet due to their hefty size. When we talk about <strong>reducing image size</strong>, we refer to the process of compressing an image so that it occupies less space. The act of image reduction is beneficial because it helps conserve storage and speeds up file transmission. If you're emailing a batch of photos or uploading them to a website, shrinking the image file size can significantly cut down on upload and download times.
+</p>
+
+<p>
+    Reducing an image's file size doesn't necessarily mean sacrificing quality. Advanced compression algorithms can minimize the size of an image, making it more manageable for online use, without a noticeable loss in image clarity. This is especially important for website optimization, where images need to be large enough to be clear and detailed but small enough to ensure quick page load times, enhancing the overall user experience.
+</p>
+
+<p>
+    In digital photography and online sharing, the concept of <strong>reducing image size</strong> plays a crucial role. As web pages and digital platforms aim for efficiency and speed, optimized images with reduced file sizes become essential. This aids in faster page loading, saving bandwidth, and providing a swift browsing experience, which are all key factors in search engine optimization (SEO) and improving a website’s ranking.
+</p>
+
+<p>
+    In essence, mindful image size reduction can significantly enhance the digital handling of images, making it a staple practice in the realm of digital imagery and online content management.
+</p>
+
+        </div>
+        <div class="col-md-6 d-flex justify-content-center">
+            <img src="{% static '1.png' %}" alt="Resim" class="img-fluid">
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col text-center">
+            <h1 class="h2">How can I reduce my image's file size?</h1>
+        </div>
+    </div>
+    <!-- Metin ve Görsel İçeren Flex Container -->
+    <div class="row">
+        <div class="col-md-6 d-flex justify-content-center">
+            <img src="{% static '2.png' %}" alt="Resim" class="img-fluid" style="max-width: 50%">
+        </div>
+        <div class="col-md-6  align-items-center">
+                      <p class="mb-2">Minimizing the digital size of your visuals is paramount for enhancing storage efficiency and expediting the exchange of images. Employing <strong>image compression</strong> stands out as a practical method to reduce image size without altering the visual's proportions. It's important to note, however, that aggressive compression can degrade the image quality due to the loss of substantial data.</p>
+
+<p class="mb-2">Alternatively, you can <strong>reduce image size</strong> by adjusting the scale of the image, which cuts down on the number of pixels it contains. This method of reducing image size can safeguard the core quality, although it may compromise some intricate details. Considering the multi-megapixel images captured by today's devices, contrast that with the relatively modest pixel count on typical display screens, and it's clear that these devices only showcase a scaled-down version of the original image.</p>
+
+<p class="mb-2">Cutting your image's dimensions in half customarily matches the display resolutions of most gadgets, thereby preserving the integrity and discernible details of your pictures—even in fullscreen mode. For images of considerable magnitude, it's advisable to <strong>reduce image size</strong> to an approximate dimension of 1900x1100 pixels. Converting them to JPEG format at a 90% quality setting will yield a high-quality and adaptable image that remains easy to share, circumventing protracted upload or download durations.</p>
+
+           </div>
+
+    </div>
+</div>
+{% endblock content %}
