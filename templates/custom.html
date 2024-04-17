@@ -3,7 +3,7 @@
 {% load django_bootstrap5 %}
 
 {% block title %}  <title>{{ content.title }}</title> {% endblock title %}
-   {% block meta_description %}  <meta name="description" content="{{ content.text|truncatechars_html: 350 }}"> {% endblock meta_description %}
+   {% block meta_description %}  <meta name="description" content="{{ content.text|truncatechars_html:350 }}"> {% endblock meta_description %}
 
 
 {% block content %}
