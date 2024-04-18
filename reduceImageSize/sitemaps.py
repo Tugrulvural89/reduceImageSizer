@@ -27,3 +27,15 @@ class CustomPageSitemap(Sitemap):
 
     def lastmod(self, obj):
         return timezone.now()
+
+
+class StaticViewSitemap(Sitemap):
+    priority = 0.5
+    changefreq = 'daily'
+
+    def items(self):
+        # List of names of the static views you want to include in the sitemap
+        return ['index', 'contact']
+
+    def location(self, item):
+        return reverse(item)

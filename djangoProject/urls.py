@@ -20,11 +20,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from django.contrib.sitemaps.views import sitemap
-from reduceImageSize.sitemaps import BlogSitemap, CustomPageSitemap
+from reduceImageSize.sitemaps import BlogSitemap, CustomPageSitemap, StaticViewSitemap
 
 sitemaps = {
     'blogs': BlogSitemap,
     'pages': CustomPageSitemap,
+    'home': StaticViewSitemap,
 }
 
 from reduceImageSize import views
