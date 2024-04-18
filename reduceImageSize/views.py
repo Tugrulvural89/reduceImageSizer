@@ -106,7 +106,7 @@ def blog_detail(request, slug=None):
 def robots_txt(request):
     lines = [
         "User-Agent: *",
-        "Disallow: /private/",
+        "Disallow: /admin/",
         "Allow: /",
         "Sitemap: https://www.reduceimagesizer.com/sitemap.xml"
     ]
