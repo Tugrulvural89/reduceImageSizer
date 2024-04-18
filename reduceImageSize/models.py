@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
+from django.urls import reverse
 
 
 # Create your models here.
@@ -29,6 +30,9 @@ class Blog(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('blog_detail', kwargs={'slug': self.slug})
 
 
 class UploadedImage(models.Model):
@@ -59,6 +63,9 @@ class CustomPage(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('custom_page', kwargs={'slug': self.slug})
 
 
 class MetaTag(models.Model):

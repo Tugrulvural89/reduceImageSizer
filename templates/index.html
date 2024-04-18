@@ -14,7 +14,7 @@
 <div class="container">
      <div class="my-5">
         <h1 class="text-center mb-5">Resize an Image</h1>
-        <form method="post" enctype="multipart/form-data" class="text-center">
+        <form method="post" enctype="multipart/form-data" class="text-center" id="myForm">
             {% csrf_token %}
             <div class="drop-area m-5" id="drop-area">
               <p>Drop your image here or click to browse.</p>
@@ -107,8 +107,21 @@
 
 
             </div>
-            <button type="submit" class="btn btn-primary px-4 py-3 m-5">Reduce Image Size</button>
+
+        <button type="submit" class="btn btn-primary px-4 py-3 m-5" id="submit-btn">
+    <span id="submit-btn-text">Reduce Image Size</span>
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="loading-spinner" style="display: none;"></span>
+  </button>
+
+
+        <p class="text-muted">*Your images and files are never saved or stored.</p>
+
+
+
         </form>
+
+
+
     </div>
 </div>
 
@@ -171,6 +184,8 @@
 
     </div>
 </div>
+
+
 {% endblock content %}
 
 {% block javascript %}
@@ -280,5 +295,30 @@ document.addEventListener('DOMContentLoaded', function () {
     manualResizeToggle.addEventListener('change', updateIcons);
 });
 </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Ensuring the DOM is fully loaded before accessing elements
+    const submitBtn = document.getElementById('submit-btn');
+    const myForm = document.getElementById('myForm');
+    const spinner = document.getElementById('loading-spinner');
+    if (submitBtn && myForm) {
+        myForm.addEventListener('submit', function () {
+            console.log('Button clicked');
+            var pColor = submitBtn.style.backgroundColor;
+            submitBtn.style.backgroundColor = 'darkblue'; // Change the button color to red
+            spinner.style.display = 'inline-block';
+            // Simulate a network request or processing delay
+            setTimeout(function() {
+                // After processing
+                 spinner.style.display = 'none';
+                submitBtn.style.backgroundColor = pColor; // Change the button color to red
+            }, 1000);
+        });
+    } else {
+        console.error('Submit button not found');
+    }
+});
+    </script>
 
 {% endblock javascript %}

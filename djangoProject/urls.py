@@ -19,6 +19,13 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
+from django.contrib.sitemaps.views import sitemap
+from reduceImageSize.sitemaps import BlogSitemap, CustomPageSitemap
+
+sitemaps = {
+    'blogs': BlogSitemap,
+    'pages': CustomPageSitemap,
+}
 
 from reduceImageSize import views
 
@@ -29,6 +36,8 @@ urlpatterns = [
     path('page/<slug:slug>/', views.custom_page, name='custom_page'),
     path('blog/', views.blog, name='blog'),
     path('blog/<slug:slug>/', views.blog_detail, name='blog_detail'),
+    path('robots.txt', views.robots_txt),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 

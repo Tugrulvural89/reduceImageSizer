@@ -9,12 +9,13 @@ from .models import Contact, CustomPage, Blog
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 
+
 def index(request):
     if request.method == 'POST':
         form = ImageUploadForm(request.POST, request.FILES)
         if form.is_valid():
             image = Image.open(form.cleaned_data['image'])
-            if image.mode == 'RGBA':
+            if image.mode != 'RGB':
                 image = image.convert('RGB')
 
             output_format = form.cleaned_data['output_format']
@@ -52,7 +53,6 @@ def index(request):
             mime_type = 'image/png' if output_format == 'PNG' else 'image/jpeg'
             file_ext = 'png' if output_format == 'PNG' else 'jpg'
             file_name = f'processed_image.{file_ext}'
-
             return FileResponse(buffer, as_attachment=True, filename=file_name, content_type=mime_type)
     else:
         form = ImageUploadForm(initial={'resize_mode': 'stretch', 'is_manual_resize': False})
@@ -101,3 +101,13 @@ def blog(request):
 def blog_detail(request, slug=None):
     blogDetail = get_object_or_404(Blog, slug=slug)
     return render(request, 'blog_detail.html', {'post': blogDetail})
+
+
+def robots_txt(request):
+    lines = [
+        "User-Agent: *",
+        "Disallow: /private/",
+        "Allow: /",
+        "Sitemap: https://www.reduceimagesizer.com/sitemap.xml"
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")

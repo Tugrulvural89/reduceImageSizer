@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['www.reduceimagesizer.com']
+ALLOWED_HOSTS = ['www.reduceimagesizer.com', '127.0.0.1']
 
 # Application definition
 
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
     'reduceImageSize.apps.ReduceimagesizeConfig',
     'django_bootstrap5',
 ]
@@ -142,5 +143,4 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CRISPY_TEMPLATE_PACK = 'bootstrap5'
-REPLICATE_API_TOKEN = 'r8_CFB9tm0tllrJ8rqMZ6gbD3zarwKA02E4bukhU'
+
