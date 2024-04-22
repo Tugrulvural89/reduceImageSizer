@@ -4,7 +4,7 @@
 
 {% block title %}  <title>{{ content.title }}</title> {% endblock title %}
    {% block meta_description %}  <meta name="description" content="{{ content.text|truncatechars_html:350 }}"> {% endblock meta_description %}
-
+{% block meta_title %}  <meta name="title" content="{{ content.title }} | reduceimagesizer.com"> {% endblock meta_title %}
 
 {% block content %}
 

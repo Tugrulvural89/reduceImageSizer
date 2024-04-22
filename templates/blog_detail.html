@@ -7,7 +7,7 @@
    {% block meta_description %}  <meta name="description" content="{{ post.text|truncatechars_html:400 }}"> {% endblock meta_description %}
 
 
-
+{% block meta_title %}  <meta name="title" content="{{ post.title }} | reduceimagesizer.com"> {% endblock meta_title %}
 {% block content %}
 <div class="container mt-5">
     <div class="blog-post">
