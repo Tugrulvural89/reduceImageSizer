@@ -23,7 +23,7 @@
                     <small>{{ post.publish|date:"N d, Y" }}</small>
                 </div>
                 <img src="{{ post.image.url }}" class="img-fluid" alt="{{ post.title }}" style="max-height: 300px; width: auto;">
-                <div class="mb-1 mt-5">{{ post.text|safe|linebreaksbr|truncatewords:300 }}</div>
+                {{ post.text|safe|linebreaksbr|truncatewords:300 }}
             <button class="btn btn-sm btn-primary mt-2 mb-2 py-2">Read more</button>
             </a>
 
