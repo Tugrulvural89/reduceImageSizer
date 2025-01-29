@@ -9,6 +9,7 @@ from .models import Contact, CustomPage, Blog
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 
+from asgiref.sync import sync_to_async
 
 def index(request):
     if request.method == 'POST':
@@ -48,12 +49,12 @@ def index(request):
             buffer = BytesIO()
             image.save(buffer, format=output_format, quality=quality)
             buffer.seek(0)
-
             # İndirme için bir dosya yanıtı oluştur
             mime_type = 'image/png' if output_format == 'PNG' else 'image/jpeg'
             file_ext = 'png' if output_format == 'PNG' else 'jpg'
             file_name = f'processed_image.{file_ext}'
-            return FileResponse(buffer, as_attachment=True, filename=file_name, content_type=mime_type)
+            respond = FileResponse(buffer, as_attachment=True, filename=file_name, content_type=mime_type)
+            return respond
     else:
         form = ImageUploadForm(initial={'resize_mode': 'stretch', 'is_manual_resize': False})
 
