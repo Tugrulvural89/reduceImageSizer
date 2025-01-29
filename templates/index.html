@@ -286,13 +286,25 @@
         function handleFiles(files) {
                 if (files.length) {
                     const file = files[0];
-                    previewImage.src = URL.createObjectURL(file);
-                    previewImage.onload = () => { // Bu kısım önemli, görüntü yüklenene kadar bekler
-                        URL.revokeObjectURL(previewImage.src); // Kullanılmayan object URL'yi temizler
-                        const size = (file.size / 1024).toFixed(2); // Dosya boyutunu KB cinsinden yuvarlayıp hesaplar
-                        const dimensions = `${previewImage.naturalWidth} x ${previewImage.naturalHeight}`; // Doğal ölçüleri alır
-                        imageInfo.textContent = `${file.name} - ${dimensions} - ${size} KB`; // Bilgiyi metin olarak ekler
+                    if (file.type === 'image/tiff') {
+                        // Convert TIFF to JPEG
+                        const tiff = new Tiff({ buffer: file });
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        tiff.render(canvas, ctx);
+                        const jpeg = canvas.toDataURL('image/jpeg');
+                        previewImage.src = jpeg;
                         previewContainer.style.display = 'block'; // Önizleme konteynerini gösterir
+                    } else {
+                        previewImage.src = URL.createObjectURL(file);
+                        previewImage.onload = () => { // Bu kısım önemli, görüntü yüklenene kadar bekler
+                            URL.revokeObjectURL(previewImage.src); // Kullanılmayan object URL'yi temizler
+                            const size = (file.size / 1024).toFixed(2); // Dosya boyutunu KB cinsinden yuvarlayıp hesaplar
+                            const dimensions = `${previewImage.naturalWidth} x ${previewImage.naturalHeight}`; // Doğal ölçüleri alır
+                            imageInfo.textContent = `${file.name} - ${dimensions} - ${size} KB`; // Bilgiyi metin olarak ekler
+                            previewContainer.style.display = 'block'; // Önizleme konteynerini gösterir
+                    }
+
                     };
                 }
             }
