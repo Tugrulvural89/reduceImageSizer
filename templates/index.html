@@ -13,6 +13,7 @@
 
 {% block content %}
 
+
 <style>
     @keyframes spinner {
         to {
@@ -214,7 +215,7 @@
 {% endblock content %}
 
 {% block javascript %}
-
+<script src="https://cdn.jsdelivr.net/npm/tiff.js@0.10.1/dist/tiff.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const submitBtn = document.getElementById('submit-btn');
